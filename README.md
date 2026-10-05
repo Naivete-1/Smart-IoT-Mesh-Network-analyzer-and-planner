@@ -268,9 +268,6 @@ Smart-IoT-Mesh-Network-Analyzer/
 │
 └── README.md
 ```
-
-> The exact structure should match the files included in the final repository.
-
 ---
 
 ## 🔄 System Workflow
