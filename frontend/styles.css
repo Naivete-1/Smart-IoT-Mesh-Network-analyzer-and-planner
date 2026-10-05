@@ -1,0 +1,376 @@
+/* ==================== GLOBAL STYLES ==================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    overflow-x: hidden;
+}
+
+/* ==================== CUSTOM SCROLLBAR ==================== */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: rgba(55, 65, 81, 0.5);
+    border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: rgba(107, 114, 128, 0.8);
+    border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background: rgba(156, 163, 175, 0.8);
+}
+
+/* ==================== CANVAS CONTAINER ==================== */
+#canvasContainer {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transform-origin: top left;
+    background: linear-gradient(45deg, #1a1a1a 25%, transparent 25%),
+                linear-gradient(-45deg, #1a1a1a 25%, transparent 25%),
+                linear-gradient(45deg, transparent 75%, #1a1a1a 75%),
+                linear-gradient(-45deg, transparent 75%, #1a1a1a 75%);
+    background-size: 20px 20px;
+    background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+    background-color: #111827;
+}
+
+#networkCanvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    pointer-events: none;
+}
+
+#networkSvg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    pointer-events: all;
+}
+
+/* ==================== SVG ELEMENTS ==================== */
+.node-active {
+    cursor: pointer;
+    transition: filter 0.2s ease, r 0.2s ease;
+}
+
+.node-active:hover {
+    filter: brightness(1.2);
+    r: calc(r + 2);
+}
+
+.node-active circle {
+    transition: fill 0.3s ease, stroke 0.3s ease;
+}
+
+.node-active text {
+    user-select: none;
+}
+
+/* Gateway node special styling */
+.node-active[data-type="gateway"] circle {
+    filter: drop-shadow(0 0 8px rgba(239, 68, 68, 0.5));
+}
+
+/* Active node styling */
+.node-active[data-active="true"] circle {
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        stroke-opacity: 1;
+        stroke-width: 2;
+    }
+    50% {
+        stroke-opacity: 0.5;
+        stroke-width: 3;
+    }
+    100% {
+        stroke-opacity: 1;
+        stroke-width: 2;
+    }
+}
+
+/* Link animations */
+line {
+    transition: stroke 0.3s ease, stroke-width 0.3s ease;
+}
+
+line:hover {
+    stroke-width: 3;
+}
+
+/* ==================== VIEW MODE BUTTONS ==================== */
+.view-mode-btn {
+    transition: all 0.3s ease;
+}
+
+.view-mode-btn.active {
+    background: linear-gradient(135deg, #3b82f6, #8b5cf6);
+    color: white;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+/* ==================== HEALTH GAUGE ==================== */
+#healthGauge {
+    width: 100%;
+    height: auto;
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.3));
+}
+
+/* ==================== LOADING SCREEN ==================== */
+#loadingScreen {
+    backdrop-filter: blur(10px);
+}
+
+/* ==================== TOOLTIPS ==================== */
+[data-tooltip] {
+    position: relative;
+    cursor: help;
+}
+
+[data-tooltip]:before {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 4px 8px;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    font-size: 12px;
+    border-radius: 4px;
+    white-space: nowrap;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease;
+    pointer-events: none;
+    z-index: 100;
+}
+
+[data-tooltip]:hover:before {
+    opacity: 1;
+    visibility: visible;
+    bottom: 150%;
+}
+
+/* ==================== ANIMATIONS ==================== */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideIn {
+    from { transform: translateX(-100%); }
+    to { transform: translateX(0); }
+}
+
+@keyframes glow {
+    0% { box-shadow: 0 0 5px rgba(59, 130, 246, 0.5); }
+    50% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.8); }
+    100% { box-shadow: 0 0 5px rgba(59, 130, 246, 0.5); }
+}
+
+/* Network node animations */
+.node-added {
+    animation: nodeAppear 0.5s ease-out;
+}
+
+@keyframes nodeAppear {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* Signal strength indicators */
+.signal-strong {
+    color: #10b981;
+    animation: signalPulse 2s infinite;
+}
+
+.signal-medium {
+    color: #f59e0b;
+}
+
+.signal-weak {
+    color: #ef4444;
+}
+
+@keyframes signalPulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+/* ==================== RESPONSIVE DESIGN ==================== */
+@media (max-width: 1024px) {
+    .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .grid {
+        gap: 1rem;
+    }
+    
+    #canvasContainer {
+        height: 400px;
+    }
+}
+
+/* ==================== PRINT STYLES ==================== */
+@media print {
+    .no-print {
+        display: none;
+    }
+    
+    #canvasContainer {
+        border: 1px solid #000;
+        background: white;
+    }
+    
+    .bg-gray-800 {
+        background: white;
+        color: black;
+        border: 1px solid #ddd;
+    }
+}
+
+/* ==================== HARDWARE MODAL ==================== */
+#hardwareModal {
+    backdrop-filter: blur(5px);
+}
+
+#hardwareModal > div {
+    animation: modalAppear 0.3s ease-out;
+}
+
+@keyframes modalAppear {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+/* ==================== STATS CARDS ==================== */
+.stat-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+}
+
+/* ==================== DEVICE LIST ITEMS ==================== */
+.device-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    background: rgba(55, 65, 81, 0.3);
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.device-item:hover {
+    background: rgba(55, 65, 81, 0.8);
+    transform: translateX(5px);
+}
+
+.device-item.online {
+    border-left: 3px solid #10b981;
+}
+
+.device-item.offline {
+    border-left: 3px solid #6b7280;
+    opacity: 0.7;
+}
+
+/* ==================== ALERT BADGES ==================== */
+.alert-badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.alert-badge.warning {
+    background: rgba(245, 158, 11, 0.2);
+    color: #f59e0b;
+}
+
+.alert-badge.error {
+    background: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+}
+
+.alert-badge.success {
+    background: rgba(16, 185, 129, 0.2);
+    color: #10b981;
+}
+
+/* ==================== ZOOM CONTROLS ==================== */
+.zoom-controls {
+    transition: all 0.2s ease;
+}
+
+.zoom-controls:hover {
+    transform: scale(1.1);
+}
+
+/* ==================== COVERAGE HEATMAP OVERLAY ==================== */
+.heatmap-overlay {
+    mix-blend-mode: multiply;
+    pointer-events: none;
+}
+
+/* ==================== NETWORK GRID BACKGROUND ==================== */
+.grid-bg {
+    background-image: 
+        linear-gradient(rgba(59, 130, 246, 0.1) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(59, 130, 246, 0.1) 1px, transparent 1px);
+    background-size: 40px 40px;
+}
+
+/* ==================== DRAG AND DROP ==================== */
+.dragging {
+    opacity: 0.8;
+    cursor: grabbing !important;
+}
+
+.drag-over {
+    border: 2px dashed #3b82f6;
+}
