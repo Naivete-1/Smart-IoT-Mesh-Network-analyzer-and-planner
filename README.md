@@ -475,29 +475,6 @@ This project combines several areas of computer engineering and software develop
 The project was developed as a practical application of computer engineering concepts involving **networking, IoT, software development, algorithms, databases, and intelligent network analysis**.
 
 ---
-
-## 📸 Screenshots
-
-Screenshots of the application interface and network-analysis features can be added here.
-
-Recommended examples include:
-
-* Main dashboard
-* Mesh topology
-* Signal coverage analysis
-* Network performance dashboard
-* IP detection
-* Failure simulation
-* Network routing
-
-Example:
-
-```markdown
-![Application Dashboard](screenshots/dashboard.png)
-```
-
----
-
 ## 🔮 Future Improvements
 
 Potential future development includes:
