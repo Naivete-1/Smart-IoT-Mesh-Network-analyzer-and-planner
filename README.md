@@ -9,7 +9,7 @@ The system combines network-analysis algorithms, real-time visualization, perfor
 ---
 ## 🚀 Live Demo
 
-[**Open Interactive Demo →**](YOUR-GITHUB-PAGES-URz)
+[**Open Interactive Demo →**](https://naivete-1.github.io/Smart-IoT-Mesh-Live-Demo/)
 
 > The live demo showcases the browser-based mesh network visualization,
 > topology interaction, path finding, rerouting and failure simulation.
