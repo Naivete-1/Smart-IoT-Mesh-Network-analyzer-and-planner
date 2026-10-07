@@ -7,6 +7,14 @@ A web-based IoT mesh network analysis and planning platform designed to **design
 The system combines network-analysis algorithms, real-time visualization, performance monitoring, hardware/network discovery, MQTT communication, and machine-learning-based signal prediction into a single engineering platform.
 
 ---
+## 🚀 Live Demo
+
+[**Open Interactive Demo →**](YOUR-GITHUB-PAGES-URz)
+
+> The live demo showcases the browser-based mesh network visualization,
+> topology interaction, path finding, rerouting and failure simulation.
+> Backend-dependent features such as real hardware communication and
+> router discovery require the full local application.
 
 ## 📌 Project Overview
 
